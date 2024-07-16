@@ -1,549 +1,69 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": 7,
-   "id": "6fe993c9",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Collecting streamlit\n",
-      "  Downloading streamlit-1.36.0-py2.py3-none-any.whl (8.6 MB)\n",
-      "     ---------------------------------------- 8.6/8.6 MB 26.2 MB/s eta 0:00:00\n",
-      "Requirement already satisfied: toml<2,>=0.10.1 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (0.10.2)\n",
-      "Requirement already satisfied: pillow<11,>=7.1.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (9.4.0)\n",
-      "Collecting tenacity<9,>=8.1.0\n",
-      "  Downloading tenacity-8.5.0-py3-none-any.whl (28 kB)\n",
-      "Requirement already satisfied: requests<3,>=2.27 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (2.28.1)\n",
-      "Requirement already satisfied: protobuf<6,>=3.20 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (4.25.3)\n",
-      "Collecting blinker<2,>=1.0.0\n",
-      "  Downloading blinker-1.8.2-py3-none-any.whl (9.5 kB)\n",
-      "Requirement already satisfied: rich<14,>=10.14.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (13.7.1)\n",
-      "Requirement already satisfied: tornado<7,>=6.0.3 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (6.1)\n",
-      "Requirement already satisfied: click<9,>=7.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (8.0.4)\n",
-      "Requirement already satisfied: pandas<3,>=1.3.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (1.5.3)\n",
-      "Collecting gitpython!=3.1.19,<4,>=3.0.7\n",
-      "  Downloading GitPython-3.1.43-py3-none-any.whl (207 kB)\n",
-      "     ------------------------------------- 207.3/207.3 kB 12.3 MB/s eta 0:00:00\n",
-      "Collecting pydeck<1,>=0.8.0b4\n",
-      "  Downloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)\n",
-      "     ---------------------------------------- 6.9/6.9 MB 19.2 MB/s eta 0:00:00\n",
-      "Requirement already satisfied: typing-extensions<5,>=4.3.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (4.9.0)\n",
-      "Requirement already satisfied: packaging<25,>=20 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (22.0)\n",
-      "Collecting cachetools<6,>=4.0\n",
-      "  Downloading cachetools-5.4.0-py3-none-any.whl (9.5 kB)\n",
-      "Collecting altair<6,>=4.0\n",
-      "  Downloading altair-5.3.0-py3-none-any.whl (857 kB)\n",
-      "     ------------------------------------- 857.8/857.8 kB 27.3 MB/s eta 0:00:00\n",
-      "Requirement already satisfied: watchdog<5,>=2.1.5 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (2.1.6)\n",
-      "Requirement already satisfied: numpy<3,>=1.20 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (1.23.5)\n",
-      "Requirement already satisfied: pyarrow>=7.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from streamlit) (16.0.0)\n",
-      "Requirement already satisfied: jinja2 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from altair<6,>=4.0->streamlit) (3.1.2)\n",
-      "Requirement already satisfied: toolz in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from altair<6,>=4.0->streamlit) (0.12.0)\n",
-      "Requirement already satisfied: jsonschema>=3.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from altair<6,>=4.0->streamlit) (4.17.3)\n",
-      "Requirement already satisfied: colorama in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from click<9,>=7.0->streamlit) (0.4.6)\n",
-      "Collecting gitdb<5,>=4.0.1\n",
-      "  Downloading gitdb-4.0.11-py3-none-any.whl (62 kB)\n",
-      "     ---------------------------------------- 62.7/62.7 kB ? eta 0:00:00\n",
-      "Requirement already satisfied: pytz>=2020.1 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from pandas<3,>=1.3.0->streamlit) (2022.7)\n",
-      "Requirement already satisfied: python-dateutil>=2.8.1 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from pandas<3,>=1.3.0->streamlit) (2.8.2)\n",
-      "Requirement already satisfied: certifi>=2017.4.17 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from requests<3,>=2.27->streamlit) (2022.12.7)\n",
-      "Requirement already satisfied: charset-normalizer<3,>=2 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from requests<3,>=2.27->streamlit) (2.0.4)\n",
-      "Requirement already satisfied: idna<4,>=2.5 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from requests<3,>=2.27->streamlit) (3.4)\n",
-      "Requirement already satisfied: urllib3<1.27,>=1.21.1 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from requests<3,>=2.27->streamlit) (1.26.14)\n",
-      "Requirement already satisfied: markdown-it-py>=2.2.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from rich<14,>=10.14.0->streamlit) (3.0.0)\n",
-      "Requirement already satisfied: pygments<3.0.0,>=2.13.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from rich<14,>=10.14.0->streamlit) (2.18.0)\n",
-      "Collecting smmap<6,>=3.0.1\n",
-      "  Downloading smmap-5.0.1-py3-none-any.whl (24 kB)\n",
-      "Requirement already satisfied: MarkupSafe>=2.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from jinja2->altair<6,>=4.0->streamlit) (2.1.1)\n",
-      "Requirement already satisfied: pyrsistent!=0.17.0,!=0.17.1,!=0.17.2,>=0.14.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.18.0)\n",
-      "Requirement already satisfied: attrs>=17.4.0 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (22.1.0)\n",
-      "Requirement already satisfied: mdurl~=0.1 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from markdown-it-py>=2.2.0->rich<14,>=10.14.0->streamlit) (0.1.2)\n",
-      "Requirement already satisfied: six>=1.5 in c:\\users\\eyshuwen\\anaconda3\\lib\\site-packages (from python-dateutil>=2.8.1->pandas<3,>=1.3.0->streamlit) (1.16.0)\n",
-      "Installing collected packages: tenacity, smmap, cachetools, blinker, pydeck, gitdb, gitpython, altair, streamlit\n",
-      "  Attempting uninstall: tenacity\n",
-      "    Found existing installation: tenacity 8.0.1\n",
-      "    Uninstalling tenacity-8.0.1:\n",
-      "      Successfully uninstalled tenacity-8.0.1\n",
-      "Successfully installed altair-5.3.0 blinker-1.8.2 cachetools-5.4.0 gitdb-4.0.11 gitpython-3.1.43 pydeck-0.9.1 smmap-5.0.1 streamlit-1.36.0 tenacity-8.5.0\n",
-      "Note: you may need to restart the kernel to use updated packages.\n"
-     ]
-    }
-   ],
-   "source": [
-    "pip install streamlit"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 10,
-   "id": "cb0d1c04",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Complete solution in a Jupyter Notebook\n",
-    "\n",
-    "# Import necessary libraries\n",
-    "import pandas as pd\n",
-    "from sklearn.model_selection import train_test_split\n",
-    "from sklearn.feature_extraction.text import TfidfVectorizer\n",
-    "from sklearn.linear_model import LogisticRegression\n",
-    "from sklearn.metrics import accuracy_score, classification_report\n",
-    "import streamlit as st\n",
-    "from pathlib import Path\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 19,
-   "id": "b5e6d699",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Load the dataset\n",
-    "ssoc_data = pd.read_csv(r'C:\\Users\\Eyshuwen\\Google Drive\\SHUWEN~1\\Jobs\\PYTHON~1\\PREASS~1\\ASSESS~1\\ASSESS~1\\SECTIO~1.CSV')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 20,
-   "id": "37115d34",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>MCF_ID</th>\n",
-       "      <th>Job Title</th>\n",
-       "      <th>Labelled SSOC</th>\n",
-       "      <th>Labelled SSOC Title</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>TJM97987719591</td>\n",
-       "      <td>Admin/Receptionist</td>\n",
-       "      <td>42241</td>\n",
-       "      <td>Receptionist (general)</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>TJM97987819310</td>\n",
-       "      <td>Beautician Supervisor</td>\n",
-       "      <td>51421</td>\n",
-       "      <td>Beautician</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>TJM97987859830</td>\n",
-       "      <td>Senior / Quantity Surveyor (C&amp;S/Tender/Project)</td>\n",
-       "      <td>21494</td>\n",
-       "      <td>Quantity surveyor</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>TJM97987826405</td>\n",
-       "      <td>Building and Construction Site Engineer</td>\n",
-       "      <td>21422</td>\n",
-       "      <td>Building construction engineer</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>TJM97987876381</td>\n",
-       "      <td>Senior Software Engineer</td>\n",
-       "      <td>25121</td>\n",
-       "      <td>Software developer</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "           MCF_ID                                        Job Title  \\\n",
-       "0  TJM97987719591                               Admin/Receptionist   \n",
-       "1  TJM97987819310                            Beautician Supervisor   \n",
-       "2  TJM97987859830  Senior / Quantity Surveyor (C&S/Tender/Project)   \n",
-       "3  TJM97987826405          Building and Construction Site Engineer   \n",
-       "4  TJM97987876381                         Senior Software Engineer   \n",
-       "\n",
-       "   Labelled SSOC             Labelled SSOC Title  \n",
-       "0          42241          Receptionist (general)  \n",
-       "1          51421                      Beautician  \n",
-       "2          21494               Quantity surveyor  \n",
-       "3          21422  Building construction engineer  \n",
-       "4          25121              Software developer  "
-      ]
-     },
-     "execution_count": 20,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "ssoc_data.head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 37,
-   "id": "3495c998",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Accuracy: 0.6313559322033898\n",
-      "Classification Report:\n",
-      "                                                                                                                                                                                                                                          precision    recall  f1-score   support\n",
-      "\n",
-      "                                                                                                                                                                                                  Accountant (excluding tax accountant)       0.87      1.00      0.93        13\n",
-      "                                                                                                                                                                                                                 Administration manager       1.00      0.60      0.75         5\n",
-      "                                                                                                                                                                                   After sales adviser/Client account service executive       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                  Air-conditioning/Refrigeration engineering technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                      Air-conditioning/Refrigeration equipment mechanic       0.00      0.00      0.00         5\n",
-      "                                                                                                                                                                                                                       Ambulance driver       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                        Applications/Systems programmer       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                   Appraiser/Valuer (excluding intangible asset valuer)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                              Architectural draughtsman       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                             Art and craft instructor (extracurriculum)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                            Artistic director (stage, film, television, game and radio)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                          Assistant electrical engineer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                          Audit manager       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                                   Auditor (accounting)       0.40      0.67      0.50         3\n",
-      "                                                                                                                                                                                      Automation engineer (including robotics engineer)       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                      Automotive engineering technician       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                                                    Automotive mechanic       0.50      0.50      0.50         2\n",
-      "                                                                                                                                                                                                                                 Barber       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                                Barista       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                                                   Bartender/Mixologist       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                          Billing clerk       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                              Biologist       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                         Building construction engineer       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                            Building maintenance worker       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Building painter       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                    Building technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                             Bus driver       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                 Business and financial project management professional       0.56      1.00      0.71         5\n",
-      "                                                                                                                                                                                                                    Business consultant       0.56      1.00      0.71        20\n",
-      "                                                                                                                                                                                                         Business development executive       0.71      1.00      0.83        17\n",
-      "                                                                                                                                                                                                           Business development manager       0.86      0.86      0.86        14\n",
-      "                                                                                                                                                                                                                                  Buyer       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                                       Captain waiter/Waiter supervisor       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                             Career coach (counselling)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                              Carpenter       1.00      1.00      1.00         3\n",
-      "                                                                                                                                                                                                                      Cashier (general)       1.00      1.00      1.00         3\n",
-      "                                                                                                                                                                                                                              Chauffeur       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                                   Chef       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                                Chemist       0.00      0.00      0.00         7\n",
-      "                                                                                                                                                                                                                   Chemistry technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                  Chief engineer/Second engineer (ship)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                           Chiropractor       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                         Civil engineer       0.50      0.67      0.57         3\n",
-      "                                                                                                                                                                                               Civil/Structural engineering draughtsman       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                    Cleaning supervisor       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                          Clinical research coordinator       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Cloud specialist       1.00      1.00      1.00         4\n",
-      "                                                                                                                                                                                            Compliance officer/Risk analyst (financial)       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                     Computer and related electronic equipment mechanic       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                      Computer engineer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                              Computer systems operator       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                   Construction manager       0.75      1.00      0.86         3\n",
-      "                                                                                                                                                                                                                         Content writer       1.00      1.00      1.00         4\n",
-      "                                                                                                                                                                                                            Cook (e.g. commis cook 2/3)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                      Creative advertising professional       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                               Customer service manager       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                         Customer service officer/clerk       0.50      1.00      0.67         4\n",
-      "                                                                                                                                                                                                                  Cyber risk specialist       0.75      0.75      0.75         4\n",
-      "                                                                                                                                                                                                                       Data entry clerk       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                         Data scientist       0.50      1.00      0.67         2\n",
-      "                                                                                                                                                                                                                 Database administrator       1.00      1.00      1.00         4\n",
-      "                                                                                                                                                                                              Database and network professionals n.e.c.       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                  Dental aide/assistant       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                                              Dietitian       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                           Digital forensics specialist       0.00      0.00      0.00         1\n",
-      "                                                                                                                                          Digital marketing professional (e.g. online, social media, e-commerce marketing professional)       0.00      0.00      0.00         6\n",
-      "                                                                                                                                                                                                                             Dishwasher       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                    Early intervention teacher for infants and children       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                              Economist       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                    Electrical engineer       0.73      1.00      0.84         8\n",
-      "                                                                                                                                                                                                     Electrical/Electronics draughtsman       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                            Electrician       1.00      0.50      0.67         4\n",
-      "                                                                                                                                                                                                                   Electronics engineer       1.00      0.33      0.50         3\n",
-      "                                                                                                                                                                                  Enrolled/Assistant nurse (excluding registered nurse)       0.00      0.00      0.00         4\n",
-      "                                                                                                                                                                                                          Enterprise/Solution architect       1.00      1.00      1.00         8\n",
-      "                                                                                                                                                                                                                 Environmental engineer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                  Environmental officer (public health)       0.00      0.00      0.00         4\n",
-      "                                                                                                                                                                                                                          Event manager       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                             Excavating/Trench digging machine operator       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                            Executive search consultant       1.00      1.00      1.00         9\n",
-      "                                                                                                                                                                                                                       Fashion designer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                 Financial analyst (e.g. equities analyst, credit analyst, investment research analyst)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                             Financial services manager       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                               Financial/Investment adviser (e.g. relationship manager)       1.00      1.00      1.00         3\n",
-      "                                                                                                                                                                                                              Fire and safety inspector       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Floor/Wall tiler       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                       Food and beverage establishments general cleaner       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                            Food and drink technologist       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                               Fork lift truck operator       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                     Fund/Portfolio manager (including asset allocator)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Graphic designer       1.00      0.93      0.96        14\n",
-      "                                                                                                                                                                                                               Hair stylist/Hairdresser       0.75      0.50      0.60         6\n",
-      "                                                                                                                                                                                                 Hand launderer/presser (non-household)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                            Hand packer       1.00      0.25      0.40         4\n",
-      "                                                                                                                                                                                                                Health services manager       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                     Healthcare assistant (e.g. therapy aide/assistant)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                Horticulturist/Arborist       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                  Hotel receptionist (including hotel reservation and front desk clerk)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                      Housekeeping/Linen room attendant       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                      Human resource consultant (excluding executive search consultant)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                       ICT quality assurance specialist       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                    ICT sales and services professional       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                    ICT service manager       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                           IT Infrastructure technician       0.50      0.50      0.50         2\n",
-      "                                                                                                                                                                                                           IT infrastructure specialist       1.00      0.94      0.97        17\n",
-      "                                                                                                                                                                          IT support technician (including IT user helpdesk technician)       0.64      1.00      0.78         9\n",
-      "                                                                                                                                                             In-house legal counsel (except judiciary, ministries and statutory boards)       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                                Industrial machinery and tools engineer       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                             Industrial safety engineer       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                 Insurance sales agent/broker (including independent financial planner)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                   Interaction designer       0.83      1.00      0.91         5\n",
-      "                                                                                                                                                                                                                      Interior designer       1.00      1.00      1.00         7\n",
-      "                                                                                                                                                                                                                      Kitchen assistant       1.00      0.62      0.77         8\n",
-      "                                                                                                                                                                                                                          Land surveyor       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                                                       Landscape worker       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                              Ledger and accounts clerk       1.00      1.00      1.00        12\n",
-      "                                                                                                                                                                                          Legal associate professional (e.g. paralegal)       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                                                        Lift technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                           Logistics/production planner       0.33      1.00      0.50         2\n",
-      "                                                                                                                                                                                                                           Lorry driver       0.00      0.00      0.00         5\n",
-      "                                                                                                                                                                                                                     Machinery mechanic       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                              Managing director/Chief executive officer       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                                             Manicurist       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                 Manufacturing engineer       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                                                  Manufacturing manager       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                                        Marine engineer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                               Marketing and sales executive (food & beverage services)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                      Marketing manager       0.39      0.93      0.55        15\n",
-      "                                                                                                                                                                                   Masseur (non-medical) (including foot reflexologist)       0.67      1.00      0.80         2\n",
-      "                                                                                                                                                                                                                          Mathematician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                    Mechanical engineer       0.75      1.00      0.86         9\n",
-      "                                                                                                                                                                                                               Medical X-ray technician       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                 Medical and pharmaceutical products sales professional       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                      Medical scientist       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                            Medical/Dental receptionist       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                            Motor vehicle spray painter       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                 Multimedia (including games) developer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                     Music instructor (extracurriculum)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                 Nursing aide/assistant       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                               Occupational health and safety inspector       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                 Occupational therapist       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                            Office clerk (including filing and copying)       0.75      1.00      0.86         6\n",
-      "                                                                                                                                                                        Office, commercial and industrial establishments indoor cleaner       1.00      0.50      0.67         2\n",
-      "                                                                                                                                                                                                         Online sales channel executive       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                            Optical engineer (including laser engineer)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                              Other car and light goods vehicle drivers       0.35      0.90      0.50        10\n",
-      "                                                                                                                                                                                                        Other credit and loans officers       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                 Other engineering professionals n.e.c.       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                               Other hair care workers (e.g. hair therapist/consultant)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                    Other heavy truck and lorry drivers       0.00      0.00      0.00         4\n",
-      "                                                                                                                                                              Other incinerator and water treatment plant and related machine operators       0.00      0.00      0.00         1\n",
-      "Other specialist medical practitioners (medical) (e.g. endocrinologist, geriatrician, haematologist, infectious diseases physician, neurologist, nuclear medicine physician, rehabilitation physician, renal physician, rheumatologist)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                            Other statistical, mathematical and actuarial professionals       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                       Personnel/Human resource manager       0.86      1.00      0.92         6\n",
-      "                                                                                                                                                        Physical fitness instructor (including yoga instructor and aerobics instructor)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                   Physicist/Astronomer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                          Pre-primary education teacher       0.22      1.00      0.36         2\n",
-      "                                                                                                                                                                                                           Pre-school education manager       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                      Premises and facilities maintenance manager (excluding building security manager)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                               Private tutor (academic)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Process engineer       0.50      0.25      0.33         4\n",
-      "                                                                                                                                                                                                         Process engineering technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                         Procurement/Purchasing manager       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                  Producer (stage, film, television, game, commercial, video and radio)       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                                                    Production engineer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                      Production engineering technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                 Public relations/Corporate communications professional       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                                     Quality control/assurance engineer       0.60      0.60      0.60         5\n",
-      "                                                                                                                                                                                                      Quality control/assurance manager       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                      Quantity surveyor       1.00      1.00      1.00        24\n",
-      "                                                                                                                                                                                                                 Receptionist (general)       0.88      1.00      0.93         7\n",
-      "                                                                                                                       Registered nurse and other nursing professionals (e.g. clinical nurse, nurse educator, excluding enrolled nurse)       0.55      1.00      0.71         6\n",
-      "                                                                                                                                                                                                                         Relief teacher       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                       Research and development manager       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                             Resident technical officer       1.00      1.00      1.00         3\n",
-      "                                                                                                                                                                                                                     Restaurant manager       0.71      1.00      0.83         5\n",
-      "                                                                                                                                                                                                                         Retail manager       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                    Safety inspector (vehicles, processes and products)       1.00      1.00      1.00         2\n",
-      "                                                                                                                                                                                                                             Scaffolder       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                              Secretary       1.00      1.00      1.00         3\n",
-      "                                                                                                                                                                                                                    Security supervisor       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                Semi-conductor engineer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                              Semi-conductor technician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                             Senior security supervisor       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                         Ship broker (e.g. charter or sales & purchase)       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                   Shop sales assistant       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                 Software and applications developer and analyst n.e.c.       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                      Software and applications manager       1.00      0.67      0.80         6\n",
-      "                                                                                                                                                                                                                     Software developer       0.53      1.00      0.70        40\n",
-      "                                                                                                                                                                                                                              Sommelier       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                            Sonographer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                          Speech and drama instructor (extracurriculum)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Speech therapist       0.00      0.00      0.00         2\n",
-      "                                                                                               Sports and recreational attendant (e.g. golf marshal, golf caddie, fun fair attendant, bowling alley attendant, swimming pool attendant)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                           Sports coach       1.00      1.00      1.00         1\n",
-      "                                                                                                                                                                                                       Statistical officer/Data analyst       0.80      0.80      0.80        10\n",
-      "                                                                                                                                                                                                                           Statistician       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                            Storekeeper       0.00      0.00      0.00         3\n",
-      "                                                                                                                                                                                                             Strategic planning manager       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                               Supervisor/General foreman (building and related trades)       1.00      1.00      1.00         4\n",
-      "                                                                                                                                                                                                               Systems designer/analyst       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                      Table-top cleaner       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                           Teacher aide       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                           Technical sales professional       0.00      0.00      0.00         0\n",
-      "                                                                                                                                                                                                                       Technical writer       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                           Telemarketer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                     Tool and die maker       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                              Traditional Chinese medicine practitioner       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                    Trailer-truck driver (including prime mover driver)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                             Translator       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                               Transport/technical operations manager (except port/shipping operations)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                       Treasury manager       0.00      0.00      0.00         2\n",
-      "                                                                                                                                                                                                                    University lecturer       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                             Van driver       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                    Visual merchandiser       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                                 Waiter       0.62      1.00      0.76        13\n",
-      "                                                                                                                                                                                                                       Warehouse worker       0.57      1.00      0.73        16\n",
-      "                                                                                                                                                                 Waste truck driver (including hooklift trucks with roll-on containers)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                  Web and mobile applications developer       0.26      0.93      0.41        28\n",
-      "                                                                                                                                                                                                                Welder and flame cutter       1.00      1.00      1.00         3\n",
-      "                                                                                                                                                               Wellness centre manager (e.g. hair/beauty/slimming/spa/manicure/massage)       0.00      0.00      0.00         1\n",
-      "                                                                                                                                                                                                                Youth work professional       0.00      0.00      0.00         1\n",
-      "\n",
-      "                                                                                                                                                                                                                               accuracy                           0.63       708\n",
-      "                                                                                                                                                                                                                              macro avg       0.27      0.30      0.27       708\n",
-      "                                                                                                                                                                                                                           weighted avg       0.51      0.63      0.54       708\n",
-      "\n"
-     ]
-    },
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\sklearn\\metrics\\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.\n",
-      "  _warn_prf(average, modifier, f\"{metric.capitalize()} is\", len(result))\n",
-      "C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\sklearn\\metrics\\_classification.py:1509: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.\n",
-      "  _warn_prf(average, modifier, f\"{metric.capitalize()} is\", len(result))\n",
-      "C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\sklearn\\metrics\\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.\n",
-      "  _warn_prf(average, modifier, f\"{metric.capitalize()} is\", len(result))\n",
-      "C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\sklearn\\metrics\\_classification.py:1509: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.\n",
-      "  _warn_prf(average, modifier, f\"{metric.capitalize()} is\", len(result))\n",
-      "C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\sklearn\\metrics\\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.\n",
-      "  _warn_prf(average, modifier, f\"{metric.capitalize()} is\", len(result))\n",
-      "C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\sklearn\\metrics\\_classification.py:1509: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.\n",
-      "  _warn_prf(average, modifier, f\"{metric.capitalize()} is\", len(result))\n"
-     ]
-    }
-   ],
-   "source": [
-    "# Split the dataset into training and testing sets\n",
-    "X_train, X_test, y_train, y_test = train_test_split(ssoc_data['Job Title'], ssoc_data['Labelled SSOC Title'], test_size=0.3, random_state=42)\n",
-    "\n",
-    "# Convert text data into TF-IDF features\n",
-    "vectorizer = TfidfVectorizer()\n",
-    "X_train_tfidf = vectorizer.fit_transform(X_train)\n",
-    "X_test_tfidf = vectorizer.transform(X_test)\n",
-    "\n",
-    "# Train a Logistic Regression model\n",
-    "model = LogisticRegression()\n",
-    "model.fit(X_train_tfidf, y_train)\n",
-    "\n",
-    "# Predict the SSOC codes for the test set\n",
-    "y_pred = model.predict(X_test_tfidf)\n",
-    "\n",
-    "# Evaluate the model\n",
-    "print(\"Accuracy:\", accuracy_score(y_test, y_pred))\n",
-    "print(\"Classification Report:\\n\", classification_report(y_test, y_pred))\n",
-    "\n",
-    "# User Interface using Streamlit\n",
-    "st.title(\"SSOC Code Finder\")\n",
-    "\n",
-    "job_title = st.text_input(\"Enter Job Title:\")\n",
-    "if st.button(\"Find SSOC Code\"):\n",
-    "    job_title_tfidf = vectorizer.transform([job_title])\n",
-    "    ssoc_code = model.predict(job_title_tfidf)[0]\n",
-    "    st.write(f\"The SSoc code for '{Job_Title}' is: {Labelled_SSOC_Title}\")\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 40,
-   "id": "8dea1ecf",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "The SSOC code for 'English Teacher' is: Pre-primary education teacher\n"
-     ]
-    }
-   ],
-   "source": [
-    "# Function to predict SSOC code for a given job title\n",
-    "def predict_ssoc(job_title):\n",
-    "    job_title_tfidf = vectorizer.transform([job_title])\n",
-    "    ssoc_code = model.predict(job_title_tfidf)[0]\n",
-    "    return ssoc_code\n",
-    "\n",
-    "# Example usage\n",
-    "job_title_example = \"English Teacher\"\n",
-    "predicted_ssoc_code = predict_ssoc(job_title_example)\n",
-    "print(f\"The SSOC code for '{job_title_example}' is: {predicted_ssoc_code}\")"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.10.9"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+import streamlit as st
+
+# Sample data for illustration
+data = pd.read_csv(r'C:\Users\Eyshuwen\Google Drive\SHUWEN~1\Jobs\PYTHON~1\PREASS~1\ASSESS~1\ASSESS~1\SECTIO~1.CSV')
+ssoc_data = pd.DataFrame(data)
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(ssoc_data['Job Title'], ssoc_data['Labelled SSOC Title'], test_size=0.3, random_state=42)
+
+# Convert text data into TF-IDF features
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+
+# Train a Logistic Regression model
+model = LogisticRegression()
+model.fit(X_train_tfidf, y_train)
+
+# Predict the SSOC codes for the test set
+y_pred = model.predict(X_test_tfidf)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred)
+
+# Display evaluation results in the console
+print("Accuracy:", accuracy)
+print("Classification Report:\n", classification_rep)
+
+# Function to predict SSOC code for a given job title
+def predict_ssoc(job_title):
+    job_title_tfidf = vectorizer.transform([job_title])
+    ssoc_code = model.predict(job_title_tfidf)[0]
+    return ssoc_code
+
+# Streamlit User Interface
+st.title("SSOC Code Finder")
+
+# Text input for job title
+job_title = st.text_input("Enter Job Title:")
+
+# Button to find SSOC code
+if st.button("Find SSOC Code"):
+    ssoc_code = predict_ssoc(job_title)
+    st.write(f"The SSOC code for '{job_title}' is: {ssoc_code}")
+
+
+# In[ ]:
+
+
+get_ipython().system('streamlit run C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\ipykernel_launcher.py')
+
+
+# In[ ]:
+
+
+
+
