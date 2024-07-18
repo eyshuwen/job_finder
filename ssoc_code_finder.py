@@ -1,69 +1,46 @@
-#!/usr/bin/env python
-# coding: utf-8
 
-# In[ ]:
-
-
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report
 import streamlit as st
+import pandas as pd
 
-# Sample data for illustration
-data = pd.read_csv(r'C:\Users\Eyshuwen\Google Drive\SHUWEN~1\Jobs\PYTHON~1\PREASS~1\ASSESS~1\ASSESS~1\SECTIO~1.CSV')
-ssoc_data = pd.DataFrame(data)
+# Load the dataset
+file_path = r'C:\Users\Eyshuwen\Google Drive\Shu Wen\Test\Test.csv'
+df = pd.read_csv(file_path)
 
-# Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(ssoc_data['Job Title'], ssoc_data['Labelled SSOC Title'], test_size=0.3, random_state=42)
+# Function to find SSOC classification based on job title
+def find_ssoc_classification(job_title):
+    matching_row = df[df['Job Title'].str.contains(job_title, case=False, na=False)]
+    if not matching_row.empty:
+        ssoc_code = matching_row.iloc[0]['Labelled SSOC']
+        ssoc_title = matching_row.iloc[0]['Labelled SSOC Title']
+        return ssoc_code, ssoc_title
+    else:
+        return None, None
 
-# Convert text data into TF-IDF features
-vectorizer = TfidfVectorizer()
-X_train_tfidf = vectorizer.fit_transform(X_train)
-X_test_tfidf = vectorizer.transform(X_test)
+# Function to find similar job listings
+def find_similar_jobs(job_title):
+    similar_jobs = df[df['Job Title'].str.contains(job_title, case=False, na=False)]
+    return similar_jobs
 
-# Train a Logistic Regression model
-model = LogisticRegression()
-model.fit(X_train_tfidf, y_train)
+# Streamlit app
+st.title('Job Title to SSOC Classification Finder')
 
-# Predict the SSOC codes for the test set
-y_pred = model.predict(X_test_tfidf)
+# Input job title
+job_title_input = st.text_input('Enter Job Title:')
 
-# Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-classification_rep = classification_report(y_test, y_pred)
-
-# Display evaluation results in the console
-print("Accuracy:", accuracy)
-print("Classification Report:\n", classification_rep)
-
-# Function to predict SSOC code for a given job title
-def predict_ssoc(job_title):
-    job_title_tfidf = vectorizer.transform([job_title])
-    ssoc_code = model.predict(job_title_tfidf)[0]
-    return ssoc_code
-
-# Streamlit User Interface
-st.title("SSOC Code Finder")
-
-# Text input for job title
-job_title = st.text_input("Enter Job Title:")
-
-# Button to find SSOC code
-if st.button("Find SSOC Code"):
-    ssoc_code = predict_ssoc(job_title)
-    st.write(f"The SSOC code for '{job_title}' is: {ssoc_code}")
-
-
-# In[ ]:
-
-
-get_ipython().system('streamlit run C:\\Users\\Eyshuwen\\anaconda3\\lib\\site-packages\\ipykernel_launcher.py')
-
-
-# In[ ]:
-
-
-
-
+if job_title_input:
+    ssoc_code, ssoc_title = find_ssoc_classification(job_title_input)
+    
+    if ssoc_code:
+        st.write(f"SSOC Classification: {ssoc_code} - {ssoc_title}")
+    else:
+        st.write("No SSOC classification found. You can skip this field.")
+    
+    st.subheader('Potential Job Listings:')
+    similar_jobs = find_similar_jobs(job_title_input)
+    if not similar_jobs.empty:
+        for index, row in similar_jobs.iterrows():
+            st.write(f"Job Title: {row['Job Title']}")
+            st.write(f"SSOC Classification: {row['Labelled SSOC']} - {row['Labelled SSOC Title']}")
+            st.write('---')
+    else:
+        st.write("No similar job listings found.")
